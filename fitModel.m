@@ -9,13 +9,16 @@ fprintf('Acquiring a better guess using non matlab`s  inbuilt non linear fit fun
 mdl = fitnlm(day,data,func, initialGuess0);
 initialGuess = mdl.Coefficients.Estimate;
 initialGuess = initialGuess'; % converting to a row vector
+initialGuess(1) = max( [initialGuess(1) 0] );
+initialGuess(2) = max( [initialGuess(2) 0] );
+initialGuess(3) = max( [initialGuess(3) 0] );
 fprintf('New guess for K, r and A : %6f %6f %6f\n', initialGuess(1),initialGuess(2),initialGuess(3) );
 
 %% Problem Definiton | Finding the regression parameters using Particle Swarm Optimization algorithm
 problem.CostFunction = errFunc;  % Cost Function
 problem.nVar = 3;       % Number of Unknown (Decision) Variables
 problem.VarMin =  [0 0 0];  % Lower Bound of Decision Variables
-problem.VarMax =  [100000 10 30000];   % Upper Bound of Decision Variables
+problem.VarMax =  [1000000 1000 30000];   % Upper Bound of Decision Variables
 problem.initialGuess = initialGuess;
 
 %% Parameters of PSO
